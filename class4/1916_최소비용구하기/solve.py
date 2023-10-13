@@ -6,7 +6,6 @@ def Input_Data():
     N = int(readl())
     M = int(readl())
     input = [list(map(int, readl().split())) for _ in range(M)]
-    input = sorted(input, key=lambda x: x[2])
     graph = [[] for _ in range(N+1)]
     for u, v, w in input:
         graph[u].append((v, w))
@@ -18,22 +17,24 @@ N, M, graph, A, B = Input_Data()
 # N (1 <= N <= 1,000), M (1 <= M <= 100,000), w (0 <= w < 100,000)
 inf = 10_000_000_000
 
-answer = inf
+def dijkstra_dist(start):
+    global graph, N
+    dist = [inf for _ in range(N+1)]
+    dist[start] = 0
+    heap = []
+    heapq.heappush(heap, (0, start))
 
-def DFS(node, dist):
-    global answer, B, visited
-    if node == B:
-        if answer > dist:
-            answer = dist
-            return
+    while heap:
+        distance, now = heapq.heappop(heap)
+
+        if dist[now] < distance:
+            continue
+
+        for next, weight in graph[now]:
+            if distance + weight < dist[next]:
+                dist[next] = distance + weight
+                heapq.heappush(heap, (distance + weight, next))
     
-    for next, weight in graph[node]:
-        if dist + weight < answer and not visited[next]:
-            visited[next] = True
-            DFS(next, dist + weight)
-            visited[next] = False
+    return dist
 
-visited = [False for _ in range(N+1)]
-DFS(A, 0)
-
-print(answer)
+print(dijkstra_dist(A)[B])
