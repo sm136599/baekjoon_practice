@@ -32,7 +32,6 @@ if N < K:
                 if not visited[num - 1]:
                     visited[num-1] = True
                     heapq.heappush(heap, (time + 1, num - 1))
-    print(cnt)
 else:
     min_time = N - K
 
