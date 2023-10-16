@@ -15,10 +15,8 @@ if not os.path.exists(f"./{args.num}_{args.name}"):
 
 # make file
 with open(f"./{args.num}_{args.name}/solve.py", "w") as f:
-    f.write("import sys\n")
-    f.write("def Input_Data():\n")
-    f.write("    readl = sys.stdin.readline\n")
-    f.write("    pass")
+    f.write("import sys\n\n")
+    f.write("readl = sys.stdin.readline\n")
     f.close()
 
 with open(f"./{args.num}_{args.name}/q.md", "w") as f:
