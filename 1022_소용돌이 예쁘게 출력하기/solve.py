@@ -7,37 +7,17 @@ ts = time.time()
 
 def get(tarI, tarJ):
     r = max(abs(tarI-5000), abs(tarJ-5000))
-    curI, curJ = r + 5000, r + 5000
     val = 2*r + 1
 
-    tmp = val**2
-
-    if curI == tarI and curJ == tarJ:
-        return tmp
+    if tarJ > tarI:
+        start = val**2 - 2*(val-1)
+        l1_dist = abs(5000-r - tarI) + abs(5000-r - tarJ)
+        return start - l1_dist
+    else:
+        start = val**2
+        l1_dist = abs(5000+r - tarI) + abs(5000+r - tarJ)
+        return start - l1_dist
     
-    for _ in range(val-1):
-        curJ -= 1
-        tmp -= 1
-        if curI == tarI and curJ == tarJ:
-            return tmp
-        
-    for _ in range(val-1):
-        curI -= 1
-        tmp -= 1
-        if curI == tarI and curJ == tarJ:
-            return tmp
-        
-    for _ in range(val-1):
-        curJ += 1
-        tmp -= 1
-        if curI == tarI and curJ == tarJ:
-            return tmp
-        
-    for _ in range(val-2):
-        curI += 1
-        tmp -= 1
-        if curI == tarI and curJ == tarJ:
-            return tmp
         
 r1 += 5000
 r2 += 5000
