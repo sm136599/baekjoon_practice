@@ -7,7 +7,7 @@ class SegmentTree {
 public:
 	SegmentTree(vector<int>& input) {
 		size = input.size();
-		tree = vector<pair<int, int>>(input.size() * 4);
+		tree = vector<pair<int, int>>(2<<((int)log2(input.size())+1));
 		generate(1, 0, size - 1, input);
 	}
 	pair<int, int> generate(int idx, int start, int end, vector<int>& input) {
