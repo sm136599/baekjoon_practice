@@ -13,7 +13,7 @@ public:
 		generate(1, 0, size - 1);
 	}
 	pair<int, int> generate(int idx, int start, int end) {
-		if (start == end) return tree[idx] = make_pair(start, end);
+		if (start == end) return tree[idx] = make_pair(original[start], 0);
 		int mid = (start + end) / 2;
 		return tree[idx] = getFS(generate(idx * 2, start, mid), generate(idx * 2 + 1, mid + 1, end));
 	}
@@ -25,6 +25,7 @@ public:
 
 	pair<int, int> updateTree(int idx, int start, int end, int target, int changeN) {
 		if (target < start || end < target) return tree[idx];
+		if (start == end && start == target) return tree[idx] = make_pair(original[target], 0);
 		if (start == end) return tree[idx];
 		int mid = (start + end) / 2;
 		return tree[idx] = getFS(updateTree(idx * 2, start, mid, target, changeN),
@@ -33,11 +34,11 @@ public:
 
 	int query(int left, int right) {
 		pair<int, int> result = queryTree(1, 0, size - 1, left, right);
-		return original[result.first] + original[result.second];
+		return result.first + result.second;
 	}
 
-	pair<int, int> queryTree(int idx, int start, int end, int left , int right) {
-		if (left > end || right < start) return make_pair(-1, -1);
+	pair<int, int> queryTree(int idx, int start, int end, int left, int right) {
+		if (left > end || right < start) return make_pair(0, 0);
 		if (left <= start && right >= end) return tree[idx];
 		int mid = (start + end) / 2;
 		pair<int, int> a = queryTree(idx * 2, start, mid, left, right);
@@ -48,14 +49,13 @@ public:
 	}
 
 	pair<int, int> getFS(const pair<int, int>& a, const pair<int, int>& b) {
-		priority_queue<pair<int, int>> pq; 
-		pq.push(make_pair(original[a.first], a.first)); 
-		if (a.first != a.second) pq.push(make_pair(original[a.second], a.second)); 
-		pq.push(make_pair(original[b.first], b.first)); 
-		if (b.first != b.second) pq.push(make_pair(original[b.second], b.second)); 
-		int max1 = pq.top().second; pq.pop();
-		int max2 = pq.top().second; pq.pop();
-		return make_pair(max1, max2);
+		vector<int> temp;
+		temp.emplace_back(a.first);
+		temp.emplace_back(a.second);
+		temp.emplace_back(b.first);
+		temp.emplace_back(b.second);
+		sort(temp.begin(), temp.end(), greater<>());
+		return make_pair(temp[0], temp[1]);
 	}
 
 	void print() {
@@ -77,7 +77,7 @@ public:
 int main(void) {
 	cin.tie(NULL)->sync_with_stdio(false);
 	int N, M; cin >> N;
-	
+
 	vector<int> input(N);
 	for (int i = 0; i < N; i++) {
 		cin >> input[i];
@@ -96,6 +96,6 @@ int main(void) {
 			cout << sTree.query(b - 1, c - 1) << '\n';
 		}
 	}
-	
+
 	return 0;
 }
