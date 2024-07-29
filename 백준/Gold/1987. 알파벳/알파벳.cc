@@ -1,5 +1,4 @@
 #include "bits/stdc++.h"
-#include <unordered_map>
 using namespace std;
 #define sws ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 
@@ -7,7 +6,7 @@ int R, C;
 unsigned char board[20][20];
 int answer = 0;
 int alphaCnt = 0;
-bool visited[26];
+bool visited[26]{ false, };
 
 void dfs(int i, int j, int cnt, int history) {
 	history |= (1 << board[i][j]);
@@ -30,20 +29,18 @@ void dfs(int i, int j, int cnt, int history) {
 int main(void) {
 	sws;
 	cin >> R >> C;
-	memset(visited, 1, 26);
 	string input;
 	for (int i = 0; i < R; i++) {
 		cin >> input;
 		for (int j = 0; j < C; j++) {
 			unsigned char c = input[j] - 'A';
 			board[i][j] = c;
-			if (visited[c]) {
-				visited[c] = false;
+			if (!visited[c]) {
+				visited[c] = true;
 				alphaCnt++;
 			}
 		}
 	}
-	visited[board[0][0]] = true;
 	dfs(0, 0, 1, 0);
 	cout << answer << endl;
 
