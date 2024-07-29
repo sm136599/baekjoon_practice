@@ -5,24 +5,25 @@ using namespace std;
 
 int R, C;
 unsigned char board[20][20];
-int di[4]{ 0 ,1 , 0, -1 };
-int dj[4]{ 1, 0, -1, 0 };
 int answer = 0;
 int alphaCnt = 0;
 bool visited[26];
+
 void dfs(int i, int j, int cnt, int history) {
 	history |= (1 << board[i][j]);
 	if (answer >= alphaCnt) return;
 	answer = max(cnt, answer);
-	for (int d = 0; d < 4; d++) {
-		int ni = i + di[d];
-		int nj = j + dj[d];
-		if ((0 <= ni && ni < R) && (0 <= nj && nj < C)) {
-			char nchar = board[ni][nj];
-			if (!(history & (1 << nchar))) {
-				dfs(ni, nj, cnt + 1, history);
-			}
-		}
+	if (i + 1 < R && (!(history & (1 << board[i + 1][j])))) {
+		dfs(i + 1, j, cnt + 1, history);
+	}
+	if (j + 1 < C && (!(history & (1 << board[i][j + 1])))) {
+		dfs(i, j + 1, cnt + 1, history);
+	}
+	if (i - 1 >= 0 && (!(history & (1 << board[i - 1][j])))) {
+		dfs(i - 1, j, cnt + 1, history);
+	}
+	if (j - 1 >= 0 && (!(history & (1 << board[i][j - 1])))) {
+		dfs(i, j - 1, cnt + 1, history);
 	}
 }
 
