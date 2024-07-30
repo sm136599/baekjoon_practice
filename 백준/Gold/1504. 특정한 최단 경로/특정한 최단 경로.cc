@@ -18,6 +18,7 @@ int dijkstra(int start, int end) {
 		int distance = pq.top().DIST;
 		int cur = pq.top().NODE;
 		pq.pop();
+		if (dist[cur] < distance) continue;
 		for (auto next : graph[cur]) {
 			if (dist[next.NODE] > distance + next.DIST) {
 				dist[next.NODE] = distance + next.DIST;
