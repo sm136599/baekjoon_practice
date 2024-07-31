@@ -8,10 +8,6 @@ string str;
 int di[]{ 0, 0, 1, 1 };
 int dj[]{ 0, 1, 0, 1 };
 
-char ctoi(char ch) {
-	return (ch == 'B') ? 1 : 0;
-}
-
 int makeBoard(int boardSize, int boardI, int boardJ, int idx) {
 	int i = idx + 1;
 	for (int k = 0; k < 4; k++) {
@@ -24,7 +20,7 @@ int makeBoard(int boardSize, int boardI, int boardJ, int idx) {
 			char c = str[i];
 			for (int i = ni; i < ni + boardSize; i++) {
 				for (int j = nj; j < nj + boardSize; j++) {
-					board[i][j] = ctoi(c);
+					if (c == 'B') board[i][j] = 1;
 				}
 			}
 			i++;
