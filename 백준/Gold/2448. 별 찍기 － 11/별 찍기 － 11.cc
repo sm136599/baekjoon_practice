@@ -2,47 +2,42 @@
 using namespace std;
 #define sws cin.tie(NULL)->ios::sync_with_stdio(false)
 
-void print0() {
-	cout << "      ";
-}
-void print1() {
-	cout << "  *   ";
-}
-void print2() {
-	cout << " * *  ";
-}
-void print5() {
-	cout << "***** ";
-}
-
-
-
-vector<string> print(int n) {
-	if (n == 3) {
-		return { "  *   ", " * *  ", "***** " };
-	}
-	else {
-		vector<string> v = print(n / 2);
-		int temp = v[0].size() / 2;
-		string blank = "";
-		for (int i = 0; i < temp; i++) blank += " ";
-		vector<string> ret;
-		for (int i = 0; i < v.size(); i++) {
-			ret.push_back(blank + v[i] + blank);
-		}
-		for (int i = 0; i < v.size(); i++) {
-			ret.push_back(v[i] + v[i]);
-		}
-		return ret;
-	}
+void drawStar(vector<string>& board, int n, int x, int y,int target) {
+    if (n == 3) {
+        if (y == target) {
+            board[0][x] = '*';
+            board[1][x - 1] = '*';
+            board[1][x + 1] = '*';
+            board[2][x - 2] = '*';
+            board[2][x - 1] = '*';
+            board[2][x] = '*';
+            board[2][x + 1] = '*';
+            board[2][x + 2] = '*';
+        }
+    }
+    else {
+        int newSize = n / 2;
+        drawStar(board, newSize, x, y, target);
+        drawStar(board, newSize, x - newSize, y + newSize, target);
+        drawStar(board, newSize, x + newSize, y + newSize, target);
+    }
 }
 
-int main(void) {
-	sws;
+int main() {
+    sws;
+    int n; cin >> n;
 
-	int N; cin >> N;
-	vector<string> answer = print(N);
-	for (auto s : answer) cout << s << endl;
+    for (int target = 0; target < n; target += 3) {
+        vector<string> board(3, string(2 * n - 1, ' '));
 
-	return 0;
+
+        drawStar(board, n, n - 1, 0, target);
+
+
+        for (const string& row : board) {
+            cout << row << '\n';
+        }
+    }
+
+    return 0;
 }
