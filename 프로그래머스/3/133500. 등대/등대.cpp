@@ -1,9 +1,8 @@
-#include <string>
 #include <vector>
-#include <iostream>
 
 using namespace std;
 int answer = 0;
+
 bool isLeaf(vector<vector<int>>& graph, vector<bool>& visited, int cur) {
     int cnt = 0;
     for (auto n : graph[cur]) {
@@ -12,6 +11,7 @@ bool isLeaf(vector<vector<int>>& graph, vector<bool>& visited, int cur) {
     }
     return cnt == 0;
 }
+
 int dfs(vector<vector<int>>& graph, vector<bool>& visited, int cur) {
     if (isLeaf(graph, visited, cur)) {
         return 1;
@@ -28,6 +28,7 @@ int dfs(vector<vector<int>>& graph, vector<bool>& visited, int cur) {
     }
     return 1;
 }
+
 int solution(int n, vector<vector<int>> lighthouse) {
     vector<vector<int>> graph(n+1);
     for (auto p : lighthouse) {
