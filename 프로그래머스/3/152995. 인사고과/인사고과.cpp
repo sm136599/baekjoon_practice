@@ -19,15 +19,15 @@ int solution(vector<vector<int>> scores) {
     for (int i = 0; i < n; i++) {
         if (target >= scores[i][0] + scores[i][1]) continue;
         
-        bool canGetInsentive = true;
+        bool canGetIncentive = true;
         for (int j = n-1; j > i; j--) {
             if (scores[i][0] < scores[j][0] && scores[i][1] < scores[j][1]) {
-                canGetInsentive = false;
+                canGetIncentive = false;
                 break;
             }
             if (scores[i][0] == scores[j][0]) break;
         }
-        if (canGetInsentive) {
+        if (canGetIncentive) {
             if (target < scores[i][0] + scores[i][1]) {
                 answer++;
             }
