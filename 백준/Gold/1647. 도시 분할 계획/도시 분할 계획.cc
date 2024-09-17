@@ -35,7 +35,6 @@ int main(void) {
 	for (int i = 1; i <= N; i++) parent[i] = i;
 	int answer = 0, count = 0;
 	for (int i = 1; i <= 1000; i++) {
-		if (edge[i].empty()) continue;
 		for (auto p : edge[i]) {
 			if (count == N - 2) {
 				cout << answer << endl;
