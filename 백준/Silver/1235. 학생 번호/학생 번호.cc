@@ -14,9 +14,12 @@ int main(void) {
 			string compare = no[i].substr(len - k, k);
 			for (int j = 0; j < N; j++) {
 				if (i == j) continue;
-				if (compare == no[j].substr(len - k, k))
+				if (compare == no[j].substr(len - k, k)) {
 					flag = false;
+                    break;
+                }
 			}
+            if (!flag) break;
 		}
 		if (flag) {
 			cout << k << '\n';
