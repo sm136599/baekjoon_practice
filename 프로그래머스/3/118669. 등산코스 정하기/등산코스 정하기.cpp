@@ -3,7 +3,6 @@
 #include <tuple>
 #include <algorithm>
 #include <queue>
-#include <iostream>
 using namespace std;
 
 vector<vector<tuple<int, int>>> graph;
