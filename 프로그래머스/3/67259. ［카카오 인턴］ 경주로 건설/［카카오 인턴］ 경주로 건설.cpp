@@ -1,9 +1,6 @@
-#include <string>
-#include <vector>
 #include <queue>
 #include <tuple>
-#include <iostream>
-#define MAX 2147483147
+#define MAX 2000000000
 #define price(a, b) (((a)*500) + ((b)*100))
 using namespace std;
 
@@ -15,44 +12,36 @@ int solution(vector<vector<int>> board) {
     int N = board.size();
     // 코너 개수, 직선 개수, 방향, i, j
     queue<tuple<int, int, int, int, int>> q;
-    vector<vector<int>> value(N, vector<int>(N, MAX));
+    vector<vector<vector<int>>> costs(4, vector<vector<int>>(N, vector<int>(N, MAX)));
     q.emplace(0, 0, -1, 0, 0);
     while(!q.empty()) {
-        int corner_cnt = -get<0>(q.front()),
-            straight_cnt = -get<1>(q.front()),
-            dir = get<2>(q.front()),
-            ci = get<3>(q.front()),
-            cj = get<4>(q.front());
+        auto [corners, straights, dir, ci, cj] = q.front();
         q.pop();
         
-        value[ci][cj] = price(corner_cnt, straight_cnt);
-        if (value[ci][cj] > answer) continue;
-        // cout << corner_cnt << straight_cnt << dir << ci << cj << endl;
+        int cost = price(corners, straights);
+        if (cost >= answer) continue;
         if (ci == N - 1 && cj == N - 1) {
-            if (answer > value[ci][cj]) {
-                answer = value[ci][cj];
-            }
+            answer = min(answer, cost);
+            continue;
         }
+        
         for (int k = 0; k < 4; k++) {
             int ni = ci + di[k],
                 nj = cj + dj[k];
             if (!(0 <= ni && ni < N && 0 <= nj && nj < N)) continue;
             if (board[ni][nj]) continue;
             if (dir == -1) {
-                q.emplace(0, -1, k, ni, nj);
+                q.emplace(0, 1, k, ni, nj);
+                costs[k][ni][nj] = 100;
+                continue;
             }
-            else {
-                if ((dir + 2) % 4 == k) continue;
-                if (dir == k) {
-                    if (value[ni][nj] + 400 < price(corner_cnt, straight_cnt+1)) continue;
-                    value[ni][nj] = price(corner_cnt, straight_cnt+1);
-                    q.emplace(-corner_cnt, -(straight_cnt + 1), k, ni, nj);
-                }
-                else {
-                    if (value[ni][nj] + 400 < price(corner_cnt+1, straight_cnt+1)) continue;
-                    value[ni][nj] = price(corner_cnt+1, straight_cnt+1);
-                    q.emplace(-(corner_cnt + 1), -(straight_cnt + 1), k, ni, nj);
-                }
+            if ((dir + 2) % 4 == k) continue;
+            
+            int n_cost = price(corners + ((dir == k)?0:1), straights + 1);
+            
+            if (n_cost < costs[k][ni][nj]) {
+                costs[k][ni][nj] = n_cost;
+                q.emplace(corners + ((dir == k)?0:1), straights + 1, k, ni, nj);
             }
         }
     }
