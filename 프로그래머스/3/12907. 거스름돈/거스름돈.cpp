@@ -12,6 +12,7 @@ int solution(int n, vector<int> money) {
     for (int m : money) {
         for (int i = m; i <= n; i++) {
             count[i] += count[i-m];
+            count[i] %= MOD;
         }
     }
     return count[n];
