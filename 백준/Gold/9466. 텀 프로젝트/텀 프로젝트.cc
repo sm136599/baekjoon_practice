@@ -25,7 +25,6 @@ void dfs(int cur) {
 int main(void) {
 	sws;
 	int T; cin >> T;
-	string answers = "";
 	while (T--) {
 		int n; cin >> n;
 		choice.clear();
@@ -44,15 +43,15 @@ int main(void) {
 		
 		for (int i = 1; i <= n; i++) {
 			if (hasTeam[i]) continue;
+			if (noTeam[i]) continue;
 			dfs(i);
 			if (!hasTeam[i]) noTeam[i] = true;
 		}
 
 		int answer = 0;
 		for (int i = 1; i <= n; i++) if (!hasTeam[i]) answer++;
-		answers.append(to_string(answer) + "\n");
+		cout << answer << '\n';
 	}
-	cout << answers;
 
 	return 0;
 }
