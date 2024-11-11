@@ -8,6 +8,8 @@ using namespace std;
 
 int solution(vector<int> info, vector<vector<int>> edges) {
     int answer = 0;
+    int sheep_count = 0;
+    for (int i : info) sheep_count += !i;
     vector<vector<int>> graph(info.size());
     for (auto edge : edges) {
         graph[edge[0]].push_back(edge[1]);
@@ -20,6 +22,7 @@ int solution(vector<int> info, vector<vector<int>> edges) {
     pq.emplace(1, 0, 1, 0);
     while (!pq.empty()) {
         if (iter++ >= 30000000) break;
+        if (sheep_count == answer) break;
         auto [sheep, wolf, visited, cur] = pq.front();
         pq.pop();
         // cout << sheep << ' ' << wolf << ' ' << cur << ' ' << visited << '\n';
