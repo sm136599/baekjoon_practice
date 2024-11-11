@@ -21,7 +21,7 @@ int solution(vector<int> info, vector<vector<int>> edges) {
     queue<tuple<int, int, int, int>> pq;
     pq.emplace(1, 0, 1, 0);
     while (!pq.empty()) {
-        if (iter++ >= 30000000) break;
+        if (iter++ >= 25000000) break;
         if (sheep_count == answer) break;
         auto [sheep, wolf, visited, cur] = pq.front();
         pq.pop();
