@@ -31,6 +31,5 @@ int solution(vector<int> info, vector<vector<int>> edges) {
             q.emplace(next_sheep, next_wolf, visited | (1 << next), next);
         }
     }
-    
     return answer;
 }
