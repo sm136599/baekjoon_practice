@@ -13,11 +13,11 @@ int solution(vector<int> info, vector<vector<int>> edges) {
         graph[edge[0]].push_back(edge[1]);
         graph[edge[1]].push_back(edge[0]);
     }
-    int iter = 0;
     vector<vector<vector<vector<bool>>>> visited_state(sheep_count+1, vector<vector<vector<bool>>>(info.size()-sheep_count+1, vector<vector<bool>>(info.size(), vector<bool>(1<<(info.size())))));
     // 양 수, 늑대 수, 방문여부, 현재 노드
     queue<tuple<int, int, int, int>> q;
     q.emplace(1, 0, 1, 0);
+    visited_state[1][0][0][1] = true;
     while (!q.empty()) {
         auto [sheep, wolf, visited, cur] = q.front();
         q.pop();
@@ -31,5 +31,6 @@ int solution(vector<int> info, vector<vector<int>> edges) {
             q.emplace(next_sheep, next_wolf, visited | (1 << next), next);
         }
     }
+    
     return answer;
 }
