@@ -30,7 +30,6 @@ int main(void) {
 		}
 	}
 	int hamming_distance = 0;
-	string result;
 	for (int j = 0; j < M; j++) {
 		char max_char;
 		unsigned short count = 0;
@@ -40,9 +39,9 @@ int main(void) {
 				max_char = (i == 0) ? 'A' : (i == 1) ? 'C' : (i == 2) ? 'G' : (i == 3) ? 'T' : ' ';
 			}
 		}
-		result += max_char;
+		cout << max_char;
 		hamming_distance += N - count;
 	}
-	cout << result << '\n' << hamming_distance;
+	cout << '\n' << hamming_distance;
 	return 0;
 }
