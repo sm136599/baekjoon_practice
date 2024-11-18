@@ -37,6 +37,7 @@ int main(void) {
 	long long answer = 0;
 	for (auto& p : possible_sum_count_A) {
 		int target_sum = T - p.first;
+		if (possible_sum_count_B.find(target_sum) == possible_sum_count_B.end()) continue;
 		answer += (long long)p.second * (long long)possible_sum_count_B[target_sum];
 	}
 
