@@ -1,6 +1,7 @@
 #include "bits/stdc++.h"
 using namespace std;
 #define sws cin.tie(NULL)->ios::sync_with_stdio(false)
+typedef long long ll;
 int main(void) {
 	sws;
 	int T; cin >> T;
@@ -17,7 +18,7 @@ int main(void) {
 		int b; cin >> b;
 		B.push_back(b);
 	}
-	unordered_map<int, int> possible_sum_count_A, possible_sum_count_B;
+	unordered_map<int, ll> possible_sum_count_A, possible_sum_count_B;
 	for (int i = 0; i < N; i++) {
 		int sum = 0;
 		for (int j = i; j < N; j++) {
@@ -38,7 +39,7 @@ int main(void) {
 	for (auto& p : possible_sum_count_A) {
 		int target_sum = T - p.first;
 		if (possible_sum_count_B.find(target_sum) == possible_sum_count_B.end()) continue;
-		answer += (long long)p.second * (long long)possible_sum_count_B[target_sum];
+		answer += p.second * possible_sum_count_B[target_sum];
 	}
 
 	cout << answer;
