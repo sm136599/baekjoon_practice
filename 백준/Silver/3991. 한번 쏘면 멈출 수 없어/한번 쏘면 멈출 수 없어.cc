@@ -6,18 +6,11 @@ int main(void) {
 	sws;
 	int h, w, c; cin >> h >> w >> c;
 	priority_queue<pair<int, int>> pq;
-	for (int i = 1; i <= c; i++) {
-		int count; cin >> count;
-		pq.emplace(make_pair(count, i));
-	}
-
 	vector<vector<int>> answer(h, vector<int>(w));
 	int direction = 1;
 	int i = h - 1, j = 0;
-	while (!pq.empty()) {
-		int count = pq.top().first,
-			color = pq.top().second;
-		pq.pop();
+	for (int color = 1; color <= c; color++) {
+		int count; cin >> count;
 		for (int k = 0; k < count; k++) {
 			answer[i][j] = color;
 
