@@ -16,31 +16,33 @@ int main(void) {
 	sws;
 	int M, N; cin >> M >> N;
 	vector<vector<char>> tomatos(N, vector<char>(M));
-	queue<tuple<int, int, int>> q;
+	//queue<tuple<int, int, int>> q;
+	queue<tuple<int, int>> q;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			int n; cin >> n;
 			tomatos[i][j] = n;
 			if (n == 1) {
-				q.emplace(0, i, j);
+				q.emplace(i, j);
 			}
 		}
 	}
 
-	int answer = 0;
+	int answer = -1;
 	while (!q.empty()) {
-		auto [time, ci, cj] = q.front(); q.pop();
-		answer = max(answer, time);
-
-		for (int k = 0; k < 4; k++) {
-			int ni = ci + di[k];
-			int nj = cj + dj[k];
-			if (!(0 <= ni && ni < N && 0 <= nj && nj < M)) continue;
-			if (tomatos[ni][nj]) continue;
-			if (tomatos[ni][nj] == -1) continue;
-			tomatos[ni][nj] = 1;
-			q.emplace(time + 1, ni, nj);
+		int n = q.size();
+		while (n--) {
+			for (int k = 0; k < 4; k++) {
+				int ni = get<0>(q.front()) + di[k];
+				int nj = get<1>(q.front()) + dj[k];
+				if (!(0 <= ni && ni < N && 0 <= nj && nj < M)) continue;
+				if (tomatos[ni][nj]) continue;
+				tomatos[ni][nj] = 1;
+				q.emplace(ni, nj);
+			}
+			q.pop();
 		}
+		answer++;
 	}
 
 	int tomato = 0;
