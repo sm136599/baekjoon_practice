@@ -16,7 +16,6 @@ int main(void) {
 	sws;
 	int M, N; cin >> M >> N;
 	vector<vector<char>> tomatos(N, vector<char>(M));
-	vector<vector<char>> visited(N, vector<char>(M));
 	queue<tuple<int, int, int>> q;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
@@ -24,7 +23,6 @@ int main(void) {
 			tomatos[i][j] = n;
 			if (n == 1) {
 				q.emplace(0, i, j);
-				visited[i][j] = 1;
 			}
 		}
 	}
@@ -38,9 +36,8 @@ int main(void) {
 			int ni = ci + di[k];
 			int nj = cj + dj[k];
 			if (!(0 <= ni && ni < N && 0 <= nj && nj < M)) continue;
-			if (visited[ni][nj]) continue;
+			if (tomatos[ni][nj]) continue;
 			if (tomatos[ni][nj] == -1) continue;
-			visited[ni][nj] = 1;
 			tomatos[ni][nj] = 1;
 			q.emplace(time + 1, ni, nj);
 		}
