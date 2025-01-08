@@ -32,15 +32,16 @@ int main(void) {
 	while (!q.empty()) {
 		int n = q.size();
 		while (n--) {
+			auto [ci, cj] = q.front(); q.pop();
+
 			for (int k = 0; k < 4; k++) {
-				int ni = get<0>(q.front()) + di[k];
-				int nj = get<1>(q.front()) + dj[k];
+				int ni = ci + di[k];
+				int nj = cj + dj[k];
 				if (!(0 <= ni && ni < N && 0 <= nj && nj < M)) continue;
 				if (tomatos[ni][nj]) continue;
 				tomatos[ni][nj] = 1;
 				q.emplace(ni, nj);
 			}
-			q.pop();
 		}
 		answer++;
 	}
