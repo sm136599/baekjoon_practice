@@ -3,51 +3,54 @@ using namespace std;
 #define sws cin.tie(NULL)->ios::sync_with_stdio(false)
 
 vector<int> parent;
-vector<int> p;
-vector<vector<int>> children;
+vector<int> new_parent;
+vector<vector<int>> query;
 
-string is_same_parent(int v, int w) {
-	return (parent[v] == parent[w]) ? "YES" : "NO";
+int find_parent(int node) {
+	if (new_parent[node] == node) return node;
+	return new_parent[node] = find_parent(new_parent[node]);
 }
 
-void update_parent(int node, int p) {
-	parent[node] = p;
-	for (auto child : children[node]) {
-		update_parent(child, p);
-	}
-}
-
-void remove_child(int parent, int child) {
-	for (auto it = children[parent].begin(); it != children[parent].end(); it++) {
-		if (*it == child) {
-			children[parent].erase(it);
-			break;
-		}
-	}
+void uni(int a, int b) {
+	a = find_parent(a);
+	b = find_parent(b);
+	new_parent[b] = a;
 }
 
 int main(void) {
 	sws;
 	int n, q; cin >> n >> q;
-	parent.resize(n + 1, 1);
-	p.resize(n + 1);
-	children.resize(n + 1);
+	parent.resize(n + 1);
+	new_parent.resize(n + 1, 1);
 	for (int i = 2; i <= n; i++) {
-		cin >> p[i];
-		children[p[i]].push_back(i);
+		cin >> parent[i];
+		new_parent[i] = i;
 	}
+
 	q += n - 1;
 	while (q--) {
 		int c; cin >> c;
 		if (c) {
 			int v, w; cin >> v >> w;
-			cout << is_same_parent(v, w) << '\n';
+			query.push_back({ c, v, w });
 		}
 		else {
 			int v; cin >> v;
-			remove_child(p[v], v);
-			update_parent(v, v);
+			query.push_back({ c,v });
 		}
+	}
+	
+	vector<bool> answer;
+	for (auto it = query.rbegin(); it != query.rend(); it++) {
+		if ((*it)[0]) {
+			answer.push_back(find_parent((*it)[1]) == find_parent((*it)[2]));
+		}
+		else {
+			uni((*it)[1], parent[(*it)[1]]);
+		}
+	}
+	for (auto it = answer.rbegin(); it != answer.rend(); it++) {
+		cout << ((*it) ? "YES\n" : "NO\n");
 	}
 
 	return 0;
